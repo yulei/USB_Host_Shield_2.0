@@ -435,14 +435,14 @@ void BTD::HCI_event_task() {
                                                                         Notify(PSTR("supports"), 0x80);
                                                                 else
                                                                         Notify(PSTR("does NOT support"), 0x80);
-                                                                Notify(PSTR(" secure simply paring (controller support)"), 0x80);
+                                                                Notify(PSTR(" secure simple paring (controller support)"), 0x80);
                                                         } else if(hcibuf[6] == 1) { // Page 1
                                                                 Notify(PSTR("\r\nLocal "), 0x80);
                                                                 if(hcibuf[8 + 0] & (1U << 0))
                                                                         Notify(PSTR("supports"), 0x80);
                                                                 else
                                                                         Notify(PSTR("does NOT support"), 0x80);
-                                                                Notify(PSTR(" secure simply paring (host support)"), 0x80);
+                                                                Notify(PSTR(" secure simple paring (host support)"), 0x80);
                                                         }
 #endif
                                                 }
@@ -671,14 +671,14 @@ void BTD::HCI_event_task() {
                                                                 Notify(PSTR("supports"), 0x80);
                                                         else
                                                                 Notify(PSTR("does NOT support"), 0x80);
-                                                        Notify(PSTR(" secure simply paring (controller support)"), 0x80);
+                                                        Notify(PSTR(" secure simple paring (controller support)"), 0x80);
                                                 } else if(hcibuf[5] == 1) { // Page 1
                                                         Notify(PSTR("\r\nRemote "), 0x80);
                                                         if(hcibuf[7 + 0] & (1U << 0))
                                                                 Notify(PSTR("supports"), 0x80);
                                                         else
                                                                 Notify(PSTR("\r\ndoes NOT support"), 0x80);
-                                                        Notify(PSTR(" secure simply paring (host support)"), 0x80);
+                                                        Notify(PSTR(" secure simple paring (host support)"), 0x80);
                                                 }
 #endif
                                         }
