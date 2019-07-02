@@ -821,6 +821,9 @@ void BTD::HCI_task() {
 
                 case HCI_WRITE_SIMPLE_PAIRING_STATE:
                         if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
+#ifdef DEBUG_USB_HOST
+                                Notify(PSTR("\r\nSimple pairing was enabled"), 0x80);
+#endif
                                 if(btdName != NULL) {
                                         hci_write_local_name(btdName);
                                         hci_state = HCI_WRITE_NAME_STATE;
@@ -832,7 +835,7 @@ void BTD::HCI_task() {
                 case HCI_WRITE_NAME_STATE:
                         if(hci_check_flag(HCI_FLAG_CMD_COMPLETE)) {
 #ifdef DEBUG_USB_HOST
-                                Notify(PSTR("\r\nThe name is set to: "), 0x80);
+                                Notify(PSTR("\r\nThe name was set to: "), 0x80);
                                 NotifyStr(btdName, 0x80);
 #endif
                                 hci_state = HCI_CHECK_DEVICE_SERVICE;
