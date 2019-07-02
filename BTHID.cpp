@@ -54,6 +54,18 @@ void BTHID::disconnect() { // Use this void to disconnect the device
 }
 
 void BTHID::ACLData(uint8_t* l2capinbuf) {
+        Notify(PSTR("\r\nUnsupported L2CAP Data - Channel ID: "), 0x80);
+        D_PrintHex<uint8_t > (l2capinbuf[7], 0x80);
+        Notify(PSTR(" "), 0x80);
+        D_PrintHex<uint8_t > (l2capinbuf[6], 0x80);
+
+        Notify(PSTR("\r\nData: "), 0x80);
+        Notify(PSTR("\r\n"), 0x80);
+        for(uint16_t i = 0; i < ((uint16_t)l2capinbuf[5] << 8 | l2capinbuf[4]); i++) {
+                D_PrintHex<uint8_t > (l2capinbuf[i + 8], 0x80);
+                Notify(PSTR(" "), 0x80);
+        }
+
         if(!pBtd->l2capConnectionClaimed && pBtd->incomingHIDDevice && !connected && !activeConnection) {
                 if(l2capinbuf[8] == L2CAP_CMD_CONNECTION_REQUEST) {
                         if((l2capinbuf[12] | (l2capinbuf[13] << 8)) == HID_CTRL_PSM) {
