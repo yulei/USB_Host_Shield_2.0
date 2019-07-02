@@ -158,6 +158,7 @@ void BTHID::ACLData(uint8_t* l2capinbuf) {
                                 if((l2capinbuf[16] | (l2capinbuf[17] << 8)) == 0x0000) { // Success
                                         if(l2capinbuf[12] == sdp_dcid[0] && l2capinbuf[13] == sdp_dcid[1]) {
                                                 //Notify(PSTR("\r\nSDP Configuration Complete"), 0x80);
+                                                identifier = l2capinbuf[9];
                                                 l2cap_set_flag(L2CAP_FLAG_CONFIG_SDP_SUCCESS);
                                         } else if(l2capinbuf[12] == control_dcid[0] && l2capinbuf[13] == control_dcid[1]) {
                                                 //Notify(PSTR("\r\nHID Control Configuration Complete"), 0x80);
