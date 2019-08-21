@@ -57,6 +57,11 @@ public:
         static void init() {
                 // Should be initialized by the user manually for now
         }
+#elif defined(PROTOCOL_CHIBIOS)
+        static void init() {
+                // Should be initialized by the user manually for now
+        }
+#endif
 #elif !defined(SPDR)
         static void init() {
                 SPI_SS::SetDirWrite();
@@ -112,6 +117,8 @@ typedef SPi< Pb5, Pb3, Pb4, Pb2 > spi;
 typedef SPi< Pb7, Pb5, Pb6, Pb4 > spi;
 #elif (defined(CORE_TEENSY) && (defined(__MK20DX128__) || defined(__MK20DX256__) || defined(__MK64FX512__) || defined(__MK66FX1M0__) || defined(__MKL26Z64__))) || defined(__ARDUINO_ARC__) || defined(__ARDUINO_X86__) || defined(__MIPSEL__) || defined(STM32F4)
 typedef SPi< P13, P11, P12, P10 > spi;
+#elif defined(PROTOCOL_CHIBIOS)
+typedef SPi< P13, P11, P12, P16 > spi;
 #elif defined(ARDUINO_SAM_DUE) && defined(__SAM3X8E__)
 typedef SPi< P76, P75, P74, P10 > spi;
 #elif defined(RBL_NRF51822)
@@ -196,6 +203,11 @@ void MAX3421e< SPI_SS, INTR >::regWr(uint8_t reg, uint8_t data) {
         c[0] = reg | 0x02;
         c[1] = data;
         HAL_SPI_Transmit(&SPI_Handle, c, 2, HAL_MAX_DELAY);
+#elif defined(PROTOCOL_CHIBIOS)
+        uint8_t c[2];
+        c[0] = reg | 0x02;
+        c[1] = data;
+        spiSend(&SPI_Handle, 2, c);
 #elif !defined(SPDR) // ESP8266, ESP32
         USB_SPI.transfer(reg | 0x02);
         USB_SPI.transfer(data);
@@ -232,6 +244,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesWr(uint8_t reg, uint8_t nbytes, uint8_t*
         uint8_t data = reg | 0x02;
         HAL_SPI_Transmit(&SPI_Handle, &data, 1, HAL_MAX_DELAY);
         HAL_SPI_Transmit(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
+        data_p += nbytes;
+#elif defined(PROTOCOL_CHIBIOS)
+        uint8_t data = reg | 0x02;
+        spiSend(&SPI_Handle, 1, &data);
+        spiSend(&SPI_Handle, nbytes, data_p);
         data_p += nbytes;
 #elif !defined(__AVR__) || !defined(SPDR)
 #if defined(ESP8266) || defined(ESP32)
@@ -291,6 +308,11 @@ uint8_t MAX3421e< SPI_SS, INTR >::regRd(uint8_t reg) {
         uint8_t rv = 0;
         HAL_SPI_Receive(&SPI_Handle, &rv, 1, HAL_MAX_DELAY);
         SPI_SS::Set();
+#elif defined(PROTOCOL_CHIBIOS)
+        spiSend(&SPI_Handle, 1, &reg);
+        uint8_t rv = 0;
+        spiRecv(&SPI_Handle, 1, &rv);
+        SPI_SS::Set();
 #elif !defined(SPDR) || defined(SPI_HAS_TRANSACTION)
         USB_SPI.transfer(reg);
         uint8_t rv = USB_SPI.transfer(0); // Send empty byte
@@ -338,6 +360,11 @@ uint8_t* MAX3421e< SPI_SS, INTR >::bytesRd(uint8_t reg, uint8_t nbytes, uint8_t*
         HAL_SPI_Transmit(&SPI_Handle, &reg, 1, HAL_MAX_DELAY);
         memset(data_p, 0, nbytes); // Make sure we send out empty bytes
         HAL_SPI_Receive(&SPI_Handle, data_p, nbytes, HAL_MAX_DELAY);
+        data_p += nbytes;
+#elif defined(PROTOCOL_CHIBIOS)
+        spiSend(&SPI_Handle, 1, &reg);
+        memset(data_p, 0, nbytes); // Make sure we send out empty bytes
+        spiRecv(&SPI_Handle, nbytes, data_p);
         data_p += nbytes;
 #elif !defined(SPDR) // ESP8266, ESP32
         yield();

@@ -172,6 +172,12 @@ e-mail   :  support@circuitsathome.com
 extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #endif
 
+#ifdef PROTOCOL_CHIBIOS
+#include <hal.h>
+extern SPIDriver SPID1;
+#define SPI_Handle SPID1
+#endif
+
 // Fix defines on Arduino Due
 #ifdef ARDUINO_SAM_DUE
 #ifdef tokSETUP
