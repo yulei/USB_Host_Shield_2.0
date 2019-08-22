@@ -1212,43 +1212,43 @@ MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
 class className { \
 public: \
   static void Set() { \
-    palSetPin(port, pin); \
+    palSetPad(port, pin); \
   } \
   static void Clear() { \
-    palClearPin(port, pin); \
+    palClearPad(port, pin); \
   } \
   static void SetDirRead() { \
-    palSetPinMode(port, pin, PAL_MODE_INPUT_FLOATING); \
+    palSetPadMode(port, pin, PAL_MODE_INPUT); \
   } \
   static void SetDirWrite() { \
-    palSetPinMode(port, pin, PAL_MODE_OUTPUT_PUSHPULL); \
+    palSetPadMode(port, pin, PAL_MODE_OUTPUT_PUSHPULL); \
   } \
-  static GPIO_PinState IsSet() { \
-    return palReadPin(port, pin); \
+  static uint32_t IsSet() { \
+    return palReadPad(port, pin); \
   } \
 };
 
-MAKE_PIN(P0, GPIOA, GPIO_PIN_3); // D0
-MAKE_PIN(P1, GPIOA, GPIO_PIN_2); // D1
-MAKE_PIN(P2, GPIOA, GPIO_PIN_10); // D2
-MAKE_PIN(P3, GPIOB, GPIO_PIN_3); // D3
-MAKE_PIN(P4, GPIOB, GPIO_PIN_5); // D4
-MAKE_PIN(P5, GPIOB, GPIO_PIN_4); // D5
-MAKE_PIN(P6, GPIOB, GPIO_PIN_10); // D6
-MAKE_PIN(P7, GPIOA, GPIO_PIN_8); // D7
-MAKE_PIN(P8, GPIOA, GPIO_PIN_9); // D8
-MAKE_PIN(P9, GPIOC, GPIO_PIN_7); // D9
-MAKE_PIN(P10, GPIOB, GPIO_PIN_6); // D10
-MAKE_PIN(P11, GPIOA, GPIO_PIN_7); // D11
-MAKE_PIN(P12, GPIOA, GPIO_PIN_6); // D12
-MAKE_PIN(P13, GPIOA, GPIO_PIN_5); // D13
+MAKE_PIN(P0, GPIOA, 3); // D0
+MAKE_PIN(P1, GPIOA, 3); // D1
+MAKE_PIN(P2, GPIOA, 10); // D2
+MAKE_PIN(P3, GPIOB, 3); // D3
+MAKE_PIN(P4, GPIOB, 5); // D4
+MAKE_PIN(P5, GPIOB, 4); // D5
+MAKE_PIN(P6, GPIOB, 10); // D6
+MAKE_PIN(P7, GPIOA, 8); // D7
+MAKE_PIN(P8, GPIOA, 9); // D8
+MAKE_PIN(P9, GPIOC, 7); // D9
+MAKE_PIN(P10, GPIOB, 6); // D10
+MAKE_PIN(P11, GPIOA, 7); // D11
+MAKE_PIN(P12, GPIOA, 6); // D12
+MAKE_PIN(P13, GPIOA, 5); // D13
 
-MAKE_PIN(P14, GPIOA, GPIO_PIN_0); // A0
-MAKE_PIN(P15, GPIOA, GPIO_PIN_1); // A1
-MAKE_PIN(P16, GPIOA, GPIO_PIN_4); // A2
-MAKE_PIN(P17, GPIOB, GPIO_PIN_0); // A3
-MAKE_PIN(P18, GPIOC, GPIO_PIN_1); // A4
-MAKE_PIN(P19, GPIOC, GPIO_PIN_0); // A5
+MAKE_PIN(P14, GPIOA, 0); // A0
+MAKE_PIN(P15, GPIOA, 1); // A1
+MAKE_PIN(P16, GPIOA, 4); // A2
+MAKE_PIN(P17, GPIOB, 0); // A3
+MAKE_PIN(P18, GPIOC, 1); // A4
+MAKE_PIN(P19, GPIOC, 0); // A5
 
 #undef MAKE_PIN
 

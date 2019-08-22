@@ -167,15 +167,14 @@ e-mail   :  support@circuitsathome.com
 #define MFK_CASTUINT8T (uint8_t) // ESP return type for sizeof needs casting to uint8_t
 #endif
 
-#ifdef STM32F4
-#include "stm32f4xx_hal.h"
-extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
-#endif
 
-#ifdef PROTOCOL_CHIBIOS
-#include <hal.h>
-extern SPIDriver SPID1;
-#define SPI_Handle SPID1
+#if defined(PROTOCOL_CHIBIOS)
+    #include <hal.h>
+    extern SPIDriver SPID1;
+    #define SPI_Handle SPID1
+#elif defined(STM32F4)
+    #include "stm32f4xx_hal.h"
+    extern SPI_HandleTypeDef SPI_Handle; // Needed to be declared in your main.cpp
 #endif
 
 // Fix defines on Arduino Due
